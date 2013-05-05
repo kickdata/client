@@ -10,8 +10,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Anonymous+Pro|Oswald:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="styles/compiled.css">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -28,7 +29,7 @@
     <div class="banner">
       <div class="container">
         <h1><img src="/img/KD-allWhite.png" alt="Kick Data" /></h1>
-        <h2>Data for the kickstarter community.</h2>
+        <h2>Open Data for the kickstarter community.</h2>
       </div>
     </div>
 
@@ -47,34 +48,108 @@
    
 
         <div class="span9">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <div class="row">
 
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <div class="span9">
+              <h3>Kickstarter is a cultural phenomenon</h3>
+              <p>It has changed the world. People who never before had access to funding for their creative projects, ideas that never would have made it past day dreams, even some things that shouldn't have seen the light of day all defied what previous generations thought was possible. Kickstarter is, one of many, cases and points for transformative power of the internet. It demonstrates the possbility that commerce and creativity and fun and play and work can all happen at the same time.</p>
+              <p>Kickstarter inspires us. So we made some tools and gathered some data to help us all continue to surprise ourselves.</p>
+            </div>
 
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <form class="span3">
+            <label><input type="radio" name="dataset" value="art" checked> Art</label>
+            <label><input type="radio" name="dataset" value="comics" > Comics</label>
+            <label><input type="radio" name="dataset" value="dance" > Dance</label>
+            <label><input type="radio" name="dataset" value="design" > Design</label>
+            <label><input type="radio" name="dataset" value="film" > Film &amp; Video</label>
+            <label><input type="radio" name="dataset" value="food" > Food</label>
+            <label><input type="radio" name="dataset" value="games" > Games</label>
+            <label><input type="radio" name="dataset" value="music" > Music</label>
+            <label><input type="radio" name="dataset" value="photography" > Photography</label>
+            <label><input type="radio" name="dataset" value="publishing" > Publishing</label>
+            <label><input type="radio" name="dataset" value="technology" > Technology</label>
+            <label><input type="radio" name="dataset" value="theater" > Theater</label>
+          </form>
 
+          <span class="span6 chart">
+            <h3>Successful vs. Unsuccessful Projects</h3>
+          </span>
+          <script>
+
+
+
+          var dataset = {
+            art: [20, 70],
+            comics: [50,50],
+            dance: [20, 70],
+            design: [50,50],
+            fashion: [20, 70],
+            film: [50,50],
+            food: [20, 70],
+            games: [50,50],
+            music: [20, 70],
+            photography: [50,50],
+            publishing: [20, 70],
+            technology: [50,50],
+            theater: [20, 70]
+          };
+
+          var width = 300,
+              height = 300,
+              radius = Math.min(width, height) / 2;
+
+          d3.scale.category20().range()[0] = "#ff2505";
+          d3.scale.category20().range()[1] = "#78eb05";
+
+          var color = d3.scale.category20();
+
+          var pie = d3.layout.pie()
+              .sort(null);
+
+          var arc = d3.svg.arc()
+              .innerRadius(radius - 75)
+              .outerRadius(radius - 40);
+
+          var svg = d3.select(".chart").append("svg")
+              .attr("width", width)
+              .attr("height", height)
+            .append("g")
+              .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+          var path = svg.selectAll("path")
+              .data(pie(dataset.art))
+            .enter().append("path")
+              .attr("fill", function(d, i) { return color(i); })
+              .attr("d", arc)
+              .each(function(d) { this._current = d; }); // store the initial values
+
+          d3.selectAll("input").on("change", change);
+
+          var timeout = setTimeout(function() {
+            d3.select("input[value=\"art\"]").property("checked", true).each(change);
+          }, 2000);
+
+          function change() {
+            clearTimeout(timeout);
+            path = path.data(pie(dataset[this.value])); // update the data
+            path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
+          }
+
+          // Store the displayed angles in _current.
+          // Then, interpolate from _current to the new angles.
+          // During the transition, _current is updated in-place by d3.interpolate.
+          function arcTween(a) {
+            var i = d3.interpolate(this._current, a);
+            this._current = i(0);
+            return function(t) {
+              return arc(i(t));
+            };
+          }
+
+          </script>        
+
+        <div class="span9">
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
           quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -89,6 +164,8 @@
           cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
           proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
+
+          </div><!--end .row -->
 
       </div>
 
