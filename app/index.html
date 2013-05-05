@@ -12,9 +12,23 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link href='http://fonts.googleapis.com/css?family=Anonymous+Pro|Oswald:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="styles/compiled.css">
+
+    <!-- d3 JS -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="scripts/nv.d3.js"></script>
+      <script src="scripts/tooltip.js"></script>
+      <script src="scripts/utils.js"></script>
+      <script src="scripts/nv-models/legend.js"></script>
+      <script src="scripts/nv-models/axis.js"></script>
+      <script src="scripts/nv-models/distribution.js"></script>
+      <script src="scripts/nv-models/scatter.js"></script>
+      <script src="scripts/nv-models/scatterChart.js"></script>
+      <script src="scripts/d3-kickdata.js"></script>
+
   </head>
-  <body>
+  <body >
+  <!-- <body> -->
+
     <!--[if lt IE 7]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
@@ -37,12 +51,13 @@
 
       <div class="row">
         <nav class="span3">
-          <ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="333">
-            <li><a href="/">Menu Item</a></li>
-            <li><a href="/">Menu Item</a></li>
-            <li><a href="/">Menu Item</a></li>
-            <li><a href="/">Menu Item</a></li>
-            <li><a href="/">Menu Item</a></li>
+          <ul id="top-menu" class="nav navbar nav-tabs nav-stacked" data-spy="affix" data-offset-top="333">
+            <li class="active"><a href="#intro">Introduction</a></li>
+            <li><a href="#success">Project Success Rates</a></li>
+            <li><a href="#raised">$ Raised Over Time</a></li>
+            <li><a href="#projects">Projects/Categories by Year</a></li>
+            <li><a href="#kddataset">The Data Set</a></li>
+            <li><a href="#team">The KickData Team</a></li>
           </ul>
         </nav>
    
@@ -51,129 +66,160 @@
 
           <div class="row">
 
-            <div class="span9">
+            <div class="span9" id="intro">
               <h3>Kickstarter is a cultural phenomenon</h3>
               <p>It has changed the world. People who never before had access to funding for their creative projects, ideas that never would have made it past day dreams, even some things that shouldn't have seen the light of day all defied what previous generations thought was possible. Kickstarter is, one of many, cases and points for transformative power of the internet. It demonstrates the possbility that commerce and creativity and fun and play and work can all happen at the same time.</p>
-              <p>Kickstarter inspires us. So we made some tools and gathered some data to help us all continue to surprise ourselves.</p>
+              <p>Kickstarter inspires us. So we made some tools and gathered some data to help the community continue to surprise eachother.</p>
             </div>
 
-          <form class="span3">
-            <label><input type="radio" name="dataset" value="art" checked> Art</label>
-            <label><input type="radio" name="dataset" value="comics" > Comics</label>
-            <label><input type="radio" name="dataset" value="dance" > Dance</label>
-            <label><input type="radio" name="dataset" value="design" > Design</label>
-            <label><input type="radio" name="dataset" value="film" > Film &amp; Video</label>
-            <label><input type="radio" name="dataset" value="food" > Food</label>
-            <label><input type="radio" name="dataset" value="games" > Games</label>
-            <label><input type="radio" name="dataset" value="music" > Music</label>
-            <label><input type="radio" name="dataset" value="photography" > Photography</label>
-            <label><input type="radio" name="dataset" value="publishing" > Publishing</label>
-            <label><input type="radio" name="dataset" value="technology" > Technology</label>
-            <label><input type="radio" name="dataset" value="theater" > Theater</label>
-          </form>
+            <hr class="span9">
 
-          <span class="span6 chart">
-            <h3>Successful vs. Unsuccessful Projects</h3>
-          </span>
-          <script>
+            <div class="span4 chart" id="success">
+              <h3>Successful vs. Unsuccessful Projects</h3>
+            </div>
+            <script type="text/javascript" src="scripts/d3-pie.js"></script>
+
+            <form class="span5">
+              <label><input type="radio" name="dataset" value="art" checked> Art</label>
+              <label><input type="radio" name="dataset" value="comics" > Comics</label>
+              <label><input type="radio" name="dataset" value="dance" > Dance</label>
+              <label><input type="radio" name="dataset" value="design" > Design</label>
+              <label><input type="radio" name="dataset" value="film" > Film &amp; Video</label>
+              <label><input type="radio" name="dataset" value="food" > Food</label>
+              <label><input type="radio" name="dataset" value="games" > Games</label>
+              <label><input type="radio" name="dataset" value="music" > Music</label>
+              <label><input type="radio" name="dataset" value="photography" > Photography</label>
+              <label><input type="radio" name="dataset" value="publishing" > Publishing</label>
+              <label><input type="radio" name="dataset" value="technology" > Technology</label>
+              <label><input type="radio" name="dataset" value="theater" > Theater</label>
+            </form>
+
+            <hr class="span9">
+
+            <div class="span9" id="raised">
+              <h3>Amount Raised by Projects Over Time</h3>
+              <div id="test1" class="chartWrap">
+              <svg></svg>
+              </div>
+            </div>
+            <script src="scripts/d3-scatter.js"></script>
+
+            <hr class="span9">
+
+            <div class="span9" id="projects">
+              <h3>Projects per Category by Year</h3>
+              <div id="bar_chart"></div>
+              <script type="text/javascript" src="scripts/d3-barchart.js"></script>
 
 
+            </div>
+            <script src="scripts/d3-scatter.js"></script>
 
-          var dataset = {
-            art: [20, 70],
-            comics: [50,50],
-            dance: [20, 70],
-            design: [50,50],
-            fashion: [20, 70],
-            film: [50,50],
-            food: [20, 70],
-            games: [50,50],
-            music: [20, 70],
-            photography: [50,50],
-            publishing: [20, 70],
-            technology: [50,50],
-            theater: [20, 70]
-          };
+            <hr class="span9">
 
-          var width = 300,
-              height = 300,
-              radius = Math.min(width, height) / 2;
+            <div class="span9" id="kddataset">
+              <h3>The Dataset</h3>
+              <p>We extracted key metrics from over 30'000 projects featured on the Kickstarter website. The above charts are a just very small sampling of what insights are possible to accrue from this wealth of information. Here is a brief list of the information we extracted from each of the 30'000+ projects we gathered:</p>
+              <ul>
+                <li>Project Title</li>
+                <li>Project Creator</li>
+                <li>Project Category</li>
+                <li>Project Location</li>
+                <li>Project Start Date</li>
+                <li>Project End Date</li>
+                <li>Data Set Last Updated Date</li>
+                <li>Total Amount Pledged to Project</li>
+                <li>Project Funding Goal</li>
+                <li>Percent Raised of Funding Goal</li>
+                <li>Project Currency</li>
+                <li>Project Status (e.g. live, successful, etc)</li>
+                <li>Project Backers (names &amp; locations of backers that made their information publically available)</li>
+                <li>The Different Pledge levels per project (including number of backers per pledge level, number of pledge levels per project)</li>
+              </ul>
+              <p>To grab a copy of the data yourself, available in both JSON format and the raw HTML source data, <a href="https://github.com/kickdata">visit us on github</a>. Also on github, we have the software that we used to gather this data, which you can use to further update or expand the dataset yourself.</p>
 
-          d3.scale.category20().range()[0] = "#ff2505";
-          d3.scale.category20().range()[1] = "#78eb05";
+            </div>
 
-          var color = d3.scale.category20();
+            <hr class="span9">
 
-          var pie = d3.layout.pie()
-              .sort(null);
+            <div class="span9" id="team">
+              <h3>The KickData Team</h3>
+              <p>The KickData project was created with much fun, love and few hours of sleep over a weekend in May 2013 as a part of the AngelHack Hackathon in Berlin, Germany.</p>
+              <ul>
+                <li>Sebastian Himberger</li>
+                <li>Andreas Taube</li>
+                <li>Jon Amar</li>
+              </ul>
+              <p>To grab a copy of the data yourself, available in both JSON format and the raw HTML source data, <a href="https://github.com/kickdata">visit us on github</a>. Also on github, we have the software that we used to gather this data, which you can use to further update or expand the dataset yourself.</p>
 
-          var arc = d3.svg.arc()
-              .innerRadius(radius - 75)
-              .outerRadius(radius - 40);
+            </div>
 
-          var svg = d3.select(".chart").append("svg")
-              .attr("width", width)
-              .attr("height", height)
-            .append("g")
-              .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+            <hr class="span9">
 
-          var path = svg.selectAll("path")
-              .data(pie(dataset.art))
-            .enter().append("path")
-              .attr("fill", function(d, i) { return color(i); })
-              .attr("d", arc)
-              .each(function(d) { this._current = d; }); // store the initial values
-
-          d3.selectAll("input").on("change", change);
-
-          var timeout = setTimeout(function() {
-            d3.select("input[value=\"art\"]").property("checked", true).each(change);
-          }, 2000);
-
-          function change() {
-            clearTimeout(timeout);
-            path = path.data(pie(dataset[this.value])); // update the data
-            path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
-          }
-
-          // Store the displayed angles in _current.
-          // Then, interpolate from _current to the new angles.
-          // During the transition, _current is updated in-place by d3.interpolate.
-          function arcTween(a) {
-            var i = d3.interpolate(this._current, a);
-            this._current = i(0);
-            return function(t) {
-              return arc(i(t));
-            };
-          }
-
-          </script>        
-
-        <div class="span9">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
+            <div class="span9" id="legal">
+              <p>KickData is not associated in any official way with Kickstarter. We're just a few fans and members of the community that want to shed some light on the impact Kickstarter is having on our culture.</p>
+              <p>"Kickstarter" is a copyrighted and trademarked property of Kickstarter, Inc.</p>
+            </div>
 
           </div><!--end .row -->
-
       </div>
 
     </div>
 
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        // Cache selectors
+        var lastId,
+            topMenu = $("#top-menu"),
+            topMenuHeight = topMenu.outerHeight()+15,
+            // All list items
+            menuItems = topMenu.find("a"),
+            // Anchors corresponding to menu items
+            scrollItems = menuItems.map(function(){
+              var item = $($(this).attr("href"));
+              if (item.length) { return item; }
+            });
+
+        // Bind click handler to menu items
+        // so we can get a fancy scroll animation
+        menuItems.click(function(e){
+          var href = $(this).attr("href"),
+              offsetTop = href === "#" ? 0 : $(href).offset().top-topMenuHeight+1;
+          $('html, body').stop().animate({ 
+              scrollTop: offsetTop
+          }, 1500);
+          e.preventDefault();
+        });
+
+        // Bind to scroll
+        $(window).scroll(function(){
+           // Get container scroll position
+           var fromTop = $(this).scrollTop()+topMenuHeight;
+           
+           // Get id of current scroll item
+           var cur = scrollItems.map(function(){
+             if ($(this).offset().top < fromTop)
+               return this;
+           });
+           // Get the id of the current element
+           cur = cur[cur.length-1];
+           var id = cur && cur.length ? cur[0].id : "";
+           
+           if (lastId !== id) {
+               lastId = id;
+               // Set/remove active class
+               menuItems
+                 .parent().removeClass("active")
+                 .end().filter("[href=#"+id+"]").parent().addClass("active");
+           }                   
+        });      
+        })
+      
+    </script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
