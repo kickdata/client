@@ -1,0 +1,49 @@
+h1, h2, h3, h4, h5, h6 {font-family: 'Oswald', Impact, sans-serif;}
+
+.banner {
+	width: 100%; height: 444px;
+	background: white url('/img/kick-banner2.jpg') no-repeat top center; 
+	background-size: cover;
+	}
+
+	h1, h2 {text-align: center; opacity: 0.7;}
+
+	h1 {margin-top: 50px;}
+
+	h2 {margin-top: 25px; color: white; text-transform: uppercase;}
+
+
+// menu
+
+nav ul {margin-top: -100px; width: 270px;}
+	nav ul.affix {margin-top: 0; top: 10px;}
+nav li a {border-radius: 0 !important; background: white;}
+
+
+
+// pie chart
+.chart svg {opacity: 0.6}
+form {margin-top: 50px;}
+
+// scatter plot
+#test1 svg {
+  height: 500px;
+}
+.nv-series circle {opacity: 0.7}
+
+// general
+.axis path,
+.axis line {
+fill: none;
+stroke: #000;
+shape-rendering: crispEdges;
+}
+
+.bar {
+fill: steelblue;
+}
+
+.x.axis path {
+display: none;
+}
+
