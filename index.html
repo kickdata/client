@@ -1,54 +1,6 @@
-<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link href='http://fonts.googleapis.com/css?family=Anonymous+Pro|Oswald:300' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="styles/compiled.css">
-
-    <!-- d3 JS -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-      <script src="scripts/nv.d3.js"></script>
-      <script src="scripts/tooltip.js"></script>
-      <script src="scripts/utils.js"></script>
-      <script src="scripts/nv-models/legend.js"></script>
-      <script src="scripts/nv-models/axis.js"></script>
-      <script src="scripts/nv-models/distribution.js"></script>
-      <script src="scripts/nv-models/scatter.js"></script>
-      <script src="scripts/nv-models/scatterChart.js"></script>
-      <script src="scripts/d3-kickdata.js"></script>
-
-  </head>
-  <body >
-  <!-- <body> -->
-
-    <!--[if lt IE 7]>
-      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-    <![endif]-->
-
-    <!--[if lt IE 9]>
-      <script src="components/es5-shim/es5-shim.js"></script>
-      <script src="components/json3/lib/json3.min.js"></script>
-    <![endif]-->
-
-
-    <!-- Add your site or application content here -->
-    <div class="banner">
-      <div class="container">
-        <h1><img src="/img/KD-allWhite.png" alt="Kick Data" /></h1>
-        <h2>Open Data for the kickstarter community.</h2>
-      </div>
-    </div>
-
-    <div class="container">
-
+---
+layout: default
+---
       <div class="row">
         <nav class="span3">
           <ul id="top-menu" class="nav navbar nav-tabs nav-stacked" data-spy="affix" data-offset-top="333">
@@ -61,7 +13,6 @@
           </ul>
         </nav>
    
-
         <div class="span9">
 
           <div class="row">
@@ -163,70 +114,3 @@
 
           </div><!--end .row -->
       </div>
-
-    </div>
-
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="scripts/bootstrap.js"></script>
-
-    <script type="text/javascript">
-      $(document).ready(function() {
-        // Cache selectors
-        var lastId,
-            topMenu = $("#top-menu"),
-            topMenuHeight = topMenu.outerHeight()+15,
-            // All list items
-            menuItems = topMenu.find("a"),
-            // Anchors corresponding to menu items
-            scrollItems = menuItems.map(function(){
-              var item = $($(this).attr("href"));
-              if (item.length) { return item; }
-            });
-
-        // Bind click handler to menu items
-        // so we can get a fancy scroll animation
-        menuItems.click(function(e){
-          var href = $(this).attr("href"),
-              offsetTop = href === "#" ? 0 : $(href).offset().top-topMenuHeight+1;
-          $('html, body').stop().animate({ 
-              scrollTop: offsetTop
-          }, 1500);
-          e.preventDefault();
-        });
-
-        // Bind to scroll
-        $(window).scroll(function(){
-           // Get container scroll position
-           var fromTop = $(this).scrollTop()+topMenuHeight;
-           
-           // Get id of current scroll item
-           var cur = scrollItems.map(function(){
-             if ($(this).offset().top < fromTop)
-               return this;
-           });
-           // Get the id of the current element
-           cur = cur[cur.length-1];
-           var id = cur && cur.length ? cur[0].id : "";
-           
-           if (lastId !== id) {
-               lastId = id;
-               // Set/remove active class
-               menuItems
-                 .parent().removeClass("active")
-                 .end().filter("[href=#"+id+"]").parent().addClass("active");
-           }                   
-        });      
-        })
-      
-    </script>
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-      s.parentNode.insertBefore(g,s)}(document,'script'));
-    </script>
-  </body>
-</html>
