@@ -63,6 +63,30 @@ var dataset = {
   theater: [20, 70]
 };
 
+
+
+$(document).ready(function() {
+  function transform(data) {
+    var dataset = {}
+    _.each(data,function(row) {
+      _.each(_.pairs(row),function(kv) {
+        var key = kv[0];
+        var value = kv[1];
+        if (!dataset[key]) {
+          dataset[key] = [];
+        }
+        dataset[key].push(value);
+      });
+    });
+    return dataset;
+  }
+  d3.csv("data/projects_successfull_by_cat.csv", function(data) {
+    dataset = transform(data);
+    pie(dataset[$('input[name="dataset"]').val()])
+  });
+});
+
+
 var width = 300,
     height = 300,
     radius = Math.min(width, height) / 2;
