@@ -1,67 +1,104 @@
+$(document).ready(function() {
+
+  // Function to transform data into pie chart data
+  function csv2pie(data) {
+    var dataset = {}
+    _.each(data, function(row) {
+      _.each(_.pairs(row), function(kv) {
+        var key = kv[0];
+        var value = kv[1];
+        if (!dataset[key]) {
+          dataset[key] = [];
+        }
+        dataset[key].push(value);
+      });
+    });
+    return dataset;
+  }
+
+  $('.pie-chart').each(function() {
+    var chartElem = this;
+    var width = $('.chart',this).width(),
+      height = $('.chart',this).height(),
+      radius = Math.min(width, height) / 2;
+
+    var colors = [ "#78eb05","#ff2505"];
+
+    var pie = d3.layout.pie()
+      .sort(null);
+
+    var arc = d3.svg.arc()
+      .innerRadius(radius - 75)
+      .outerRadius(radius - 40);
+
+    var node = $('.chart', this).get(0);
+    var svg = d3.select(node).append('svg')
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 
-// var dataset = {
-//   art: [20, 70],
-//   comics: [50,50],
-//   dance: [20, 70],
-//   design: [50,50],
-//   fashion: [20, 70],
-//   film: [50,50],
-//   food: [20, 70],
-//   games: [50,50],
-//   music: [20, 70],
-//   photography: [50,50],
-//   publishing: [20, 70],
-//   technology: [50,50],
-//   theater: [20, 70]
-// };
 
-// var width = 300,
-//     height = 300,
-//     radius = Math.min(width, height) / 2;
+    // Store the displayed angles in _current.
+    // Then, interpolate from _current to the new angles.
+    // During the transition, _current is updated in-place by d3.interpolate.
 
-// var color = d3.scale.category20();
-// // var color = ["#ff2505","#78eb05"];
+    function arcTween(a) {
+      var i = d3.interpolate(this._current, a);
+      this._current = i(0);
+      return function(t) {
+        return arc(i(t));
+      };
+    }
 
-// var pie = d3.layout.pie()
-//     .sort(null);
+    var source = $(this).attr('data-source');
+    d3.csv(source, function(data) {
+      dataset = csv2pie(data);
 
-// var arc = d3.svg.arc()
-//     .innerRadius(radius - 75)
-//     .outerRadius(radius - 40);
+      var html = '<form class="span5">';
+      _.each(_.keys(dataset), function(key, num) {
+        html += '<label class="' + key +'"><input type="radio" name="dataset" value="' + key + '" >' + key + '</label>';
+      });
+      html += "</form>";
+      $(chartElem).append(html);
 
-// var svg = d3.select(".chart").append("svg")
-//     .attr("width", width)
-//     .attr("height", height)
-//   .append("g")
-//     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+      $(chartElem).append('<div class="percentage">12%</div>');
+    
+      $('input:first',chartElem).attr('checked','checked');
 
-// var path = svg.selectAll("path")
-//     .data(pie(dataset.art))
-//   .enter().append("path")
-//     .attr("fill", function(d, i) { return color(i); })
-//     .attr("d", arc)
-//     .each(function(d) { this._current = d; }); // store the initial values
+      function updatePercent() {
+        var selectedValue = $('input:checked',chartElem).val();
+        var failedNum = parseFloat(dataset[selectedValue][1]);
+        var successNum = parseFloat(dataset[selectedValue][0]);
+        var successRate = successNum / (failedNum+successNum);
+        successRate = Math.floor(successRate * 100)
+        $('.percentage',chartElem).html(successRate + "%");        
+      }
 
-// d3.selectAll("input").on("change", change);
+      $('input',chartElem).change(function() {
+        var selectedValue = $('input:checked',chartElem).val();
+        updatePercent();
+        path = path.data(pie(dataset[selectedValue])); // update the data
+        path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
+      });
 
-// var timeout = setTimeout(function() {
-//   d3.select("input[value=\"art\"]").property("checked", true).each(change);
-// }, 2000);
+      var selectedValue = $('input:checked',chartElem).val();
+      updatePercent();
+      var path = svg.selectAll("path")
+        .data(pie(dataset[selectedValue]))
+        .enter().append("path")
+        .attr("fill", function(d, i) {
+        return colors[i];
+      })
+        .attr("d", arc)
+        .each(function(d) {
+        this._current = d;
+      }); // store the initial values
 
-// function change() {
-//   clearTimeout(timeout);
-//   path = path.data(pie(dataset[this.value])); // update the data
-//   path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
-// }
 
-// // Store the displayed angles in _current.
-// // Then, interpolate from _current to the new angles.
-// // During the transition, _current is updated in-place by d3.interpolate.
-// function arcTween(a) {
-//   var i = d3.interpolate(this._current, a);
-//   this._current = i(0);
-//   return function(t) {
-//     return arc(i(t));
-//   };
-// }
+      pie(dataset[$('input[name="dataset"]').val()])
+    });
+  });
+
+});
