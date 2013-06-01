@@ -22,8 +22,23 @@ nav li a {border-radius: 0 !important; background: white;}
 
 
 // pie chart
+.pie-chart-container {position: relative;}
+
+.percentage {
+	position: absolute;
+	top: 202px;
+	font-weight: bold;
+	font-size: 48px;
+	left: 149px;
+	color: #78eb05;
+}
+
+input[type="radio"] {margin-right: 10px;}
+
 .chart svg {opacity: 0.6}
 form {margin-top: 50px;}
+
+
 
 // scatter plot
 #test1 svg {
@@ -46,4 +61,6 @@ fill: steelblue;
 .x.axis path {
 display: none;
 }
+
+
 
