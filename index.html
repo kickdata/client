@@ -6,8 +6,8 @@ layout: default
           <ul id="top-menu" class="nav navbar nav-tabs nav-stacked" data-spy="affix" data-offset-top="333">
             <li class="active"><a href="#intro">Introduction</a></li>
             <li><a href="#success">Project Success Rates</a></li>
-            <li><a href="#raised">$ Raised Over Time</a></li>
             <li><a href="#projects">Projects/Categories by Year</a></li>
+            <li><a href="#raised">$ Raised Over Time</a></li>
             <li><a href="#kddataset">The Data Set</a></li>
             <li><a href="#team">The KickData Team</a></li>
           </ul>
@@ -37,22 +37,20 @@ layout: default
 
             <hr class="span9">
 
-            <div class="span9" id="raised">
-              <h3>Amount Raised by Projects Over Time</h3>
-              <div id="test1" class="chartWrap">
-              <svg></svg>
-              </div>
+            <div class="span9" id="projects">
+              <h3>Projects per Category by Year</h3>
+              <div id="bar_chart"></div>
+              <script type="text/javascript" src="scripts/d3-barchart.js"></script>
             </div>
             <script src="scripts/d3-scatter.js"></script>
 
             <hr class="span9">
 
-            <div class="span9" id="projects">
-              <h3>Projects per Category by Year</h3>
-              <div id="bar_chart"></div>
-              <script type="text/javascript" src="scripts/d3-barchart.js"></script>
-
-
+            <div class="span9" id="raised">
+              <h3>Amount Raised by Projects Over Time</h3>
+              <div id="test1" class="chartWrap">
+              <svg></svg>
+              </div>
             </div>
             <script src="scripts/d3-scatter.js"></script>
 

@@ -1,6 +1,3 @@
-
-
-
 //Format A
 var chart;
 nv.addGraph(function() {

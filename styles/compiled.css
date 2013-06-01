@@ -5515,6 +5515,9 @@ form {
 .x.axis path {
   display: none; }
 
+svg {
+  opacity: 0.6; }
+
 /********************
  * HTML CSS
  */

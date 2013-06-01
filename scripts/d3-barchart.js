@@ -45,14 +45,14 @@ var svg = d3.select("#bar_chart").append("svg")
 .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("/test-data/data.csv", function(error, data) {
-var ageNames = d3.keys(data[0]).filter(function(key) { return key !== "State"; });
+d3.csv("/data/projects_number_by_year.csv", function(error, data) {
+var ageNames = d3.keys(data[0]).filter(function(key) { return key !== "Year"; });
 
 data.forEach(function(d) {
   d.ages = ageNames.map(function(name) { return {name: name, value: +d[name]}; });
 });
 
-x0.domain(data.map(function(d) { return d.State; }));
+x0.domain(data.map(function(d) { return d.Year; }));
 x1.domain(ageNames).rangeRoundBands([0, x0.rangeBand()]);
 y.domain([0, d3.max(data, function(d) { return d3.max(d.ages, function(d) { return d.value; }); })]);
 
@@ -71,13 +71,13 @@ svg.append("g")
     .style("text-anchor", "end")
     .text("Population");
 
-var state = svg.selectAll(".state")
+var Year = svg.selectAll(".Year")
     .data(data)
   .enter().append("g")
     .attr("class", "g")
-    .attr("transform", function(d) { return "translate(" + x0(d.State) + ",0)"; });
+    .attr("transform", function(d) { return "translate(" + x0(d.Year) + ",0)"; });
 
-state.selectAll("rect")
+Year.selectAll("rect")
     .data(function(d) { return d.ages; })
   .enter().append("rect")
     .attr("width", x1.rangeBand())
